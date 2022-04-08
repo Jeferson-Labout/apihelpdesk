@@ -1,7 +1,5 @@
 package com.jefson.apihelpdesk.resources.exceptions;
 
-import java.time.LocalDate;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;

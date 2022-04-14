@@ -18,16 +18,16 @@ import com.jefson.apihelpdesk.services.exceptions.ObjectnotFoundException;
 
 @Service
 public class TecnicoService {
-	
+
 	@Autowired
 	private TecnicoRepository repository;
 	@Autowired
 	private PessoaRepository pessoaRepository;
-	
+
 	public Tecnico findById(Integer id) {
 		Optional<Tecnico> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id));
-		
+
 	}
 
 	public List<Tecnico> findAll() {
@@ -40,13 +40,23 @@ public class TecnicoService {
 		Tecnico newObj = new Tecnico(objDTO);
 		return repository.save(newObj);
 	}
+
 	public Tecnico update(Integer id, @Valid TecnicoDTO objDTO) {
 		objDTO.setId(id);
 		Tecnico oldObj = findById(id);
 		validaPorCpfEEmail(objDTO);
 		oldObj = new Tecnico(objDTO);
 		return repository.save(oldObj);
-		
+
+	}
+
+	public void delete(Integer id) {
+		Tecnico obj = findById(id);
+		if (obj.getChamados().size() > 0) {
+			throw new DataIntegrityViolationException("Técnico possui ordens de serviço e não pode ser deletado!");
+		}
+		repository.deleteById(id);
+
 	}
 
 	private void validaPorCpfEEmail(TecnicoDTO objDTO) {
@@ -60,7 +70,5 @@ public class TecnicoService {
 			throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
 		}
 	}
-
-
 
 }

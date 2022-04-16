@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jefson.apihelpdesk.domain.Chamado;
+import javax.validation.constraints.NotNull;
 
 public class ChamadoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -13,13 +14,21 @@ public class ChamadoDTO implements Serializable {
 	private LocalDate dataAbertura = LocalDate.now();
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataFechamento;
+	@NotNull(message = "O campo de prioridade é Obrigatório!")
 	private Integer prioridade;
+	@NotNull(message = "O campo de status é Obrigatório!")
 	private Integer status;
+	@NotNull(message = "O campo de titulo é Obrigatório!")
 	private String titulo;
+	@NotNull(message = "O campo de observacoes é Obrigatório!")
 	private String observacoes;
+	@NotNull(message = "O campo de tecnico é Obrigatório!")
 	private Integer tecnico;
+	@NotNull(message = "O campo de cliente é Obrigatório!")
 	private Integer cliente;
+	
 	private String nomeCliente;
+	
 	private String nomeTecnico;
 
 	public ChamadoDTO() {
